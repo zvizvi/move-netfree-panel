@@ -26,34 +26,35 @@ $(document).ready(function () {
 		mnfp.frame.style.pointerEvents = 'none';
 	});
 	document.addEventListener('mouseup', function(e){
-		if(mnfp.drag == true){
-			mnfp.drag = false;
-			mnfp.main.style.right = '';
-			mnfp.main.style.left = '';
-			mnfp.frame.style.pointerEvents = '';
-			if(e.target != mnfp.handDrag){
-				mnfp.main.className = '';
-			};
-			if(e.pageX < (window.innerWidth/2)){
-				mnfp.window.className = 'left';
-			}else{
-				mnfp.window.className = '';
-			};
-		}
+		if(mnfp.drag === false) return;
+		mnfp.drag = false;
+		mnfp.main.style.right = '';
+		mnfp.main.style.left = '';
+		mnfp.frame.style.pointerEvents = '';
+		if(e.target != mnfp.handDrag){
+			mnfp.main.className = '';
+		};
+		if(e.pageX < (window.innerWidth/2)){
+			mnfp.window.className = 'left';
+		}else{
+			mnfp.window.className = '';
+		};
 	});
-
-	mnfp.windowHeight = window.innerHeight-90;
-	mnfp.windowWidth = window.innerWidth;
-	window.addEventListener('resize', function(){
-		mnfp.windowHeight = window.innerHeight-90;
+	mnfp.setPage = function(){
+		mnfp.windowHeight = window.innerHeight;
 		mnfp.windowWidth = window.innerWidth;
-	});
+		if(Number(mnfp.main.style.top.slice(0,-2)) > (mnfp.windowHeight-90)){
+			mnfp.main.style.top = (mnfp.windowHeight-90)+'px'
+		}
+	}
+	mnfp.setPage()
+	window.addEventListener('resize', mnfp.setPage);
 
 	document.addEventListener('mousemove', function(e){
 		if(mnfp.drag === false) return;
 		var y = e.clientY;
 		var x = mnfp.windowWidth-e.clientX;
-		if(y > 4 && y < mnfp.windowHeight){
+		if(y > 4 && y < (mnfp.windowHeight - 90)){
 			mnfp.main.style.top = (y+5)+'px';
 		};
 		if(x < 170){
