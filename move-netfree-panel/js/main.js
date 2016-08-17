@@ -4,6 +4,7 @@ $(document).ready(function () {
 	};
 	mnfp.window = document.getElementById('netfree-popup-window');
 	mnfp.main = document.getElementById('netfree-popup-window-main');
+	mnfp.frame = document.getElementById('netfree-popup-window-iframe');
 	mnfp.handDrag = document.createElement('span');
 	mnfp.handDrag.id = 'netfree-popup-window-hand-drag';
 	mnfp.main.appendChild(mnfp.handDrag);
@@ -17,29 +18,7 @@ $(document).ready(function () {
 	mnfp.style.type = 'text/css';
 	mnfp.main.appendChild(mnfp.style);
 
-	mnfp.frame = document.getElementById('netfree-popup-window-iframe');
-
-	mnfp.drag = false;
-	mnfp.handDrag.addEventListener('mousedown', function(){
-		mnfp.drag = true;
-		mnfp.window.className += ' dragging';
-		mnfp.frame.style.pointerEvents = 'none';
-	});
-	document.addEventListener('mouseup', function(e){
-		if(mnfp.drag === false) return;
-		mnfp.drag = false;
-		mnfp.main.style.right = '';
-		mnfp.main.style.left = '';
-		mnfp.frame.style.pointerEvents = '';
-		if(e.target != mnfp.handDrag){
-			mnfp.main.className = '';
-		};
-		if(e.pageX < (window.innerWidth/2)){
-			mnfp.window.className = 'left';
-		}else{
-			mnfp.window.className = '';
-		};
-	});
+	//set page size
 	mnfp.setPage = function(){
 		mnfp.windowHeight = window.innerHeight;
 		mnfp.windowWidth = window.innerWidth;
@@ -50,6 +29,15 @@ $(document).ready(function () {
 	mnfp.setPage()
 	window.addEventListener('resize', mnfp.setPage);
 
+	//mousedown
+	mnfp.drag = false;
+	mnfp.handDrag.addEventListener('mousedown', function(){
+		mnfp.drag = true;
+		mnfp.window.className += ' dragging';
+		mnfp.frame.style.pointerEvents = 'none';
+	});
+
+	//mousemove
 	document.addEventListener('mousemove', function(e){
 		if(mnfp.drag === false) return;
 		var y = e.clientY;
@@ -70,4 +58,22 @@ $(document).ready(function () {
 		}
 		mnfp.main.className = 'active';
 	});
+
+	//mouseup
+	document.addEventListener('mouseup', function(e){
+		if(mnfp.drag === false) return;
+		mnfp.drag = false;
+		mnfp.main.style.right = '';
+		mnfp.main.style.left = '';
+		mnfp.frame.style.pointerEvents = '';
+		if(e.target != mnfp.handDrag){
+			mnfp.main.className = '';
+		};
+		if(e.pageX < (window.innerWidth/2)){
+			mnfp.window.className = 'left';
+		}else{
+			mnfp.window.className = '';
+		};
+	});
+
 });

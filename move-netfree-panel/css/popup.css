@@ -1,0 +1,42 @@
+body{
+	width: 280px;
+	font-family: 'Assistant',Arial, sans-serif ;
+	margin: 0;
+}
+.mnfp-head{
+	background-color: #D9DBDA;
+	color: #769897;
+	height: 40px;
+	line-height: 40px;
+	font-size: 22px;
+    text-align: center;
+    font-weight: 700;
+}
+.mnfp-content{
+	font-size: 16px;
+	color: #769897;
+	background-color: #F7F7F7;
+	-webkit-user-select: none;
+	user-select: none;
+}
+.mnfp-block{
+	padding: 7px 15px;
+	margin: 0 7px;
+	border-bottom: solid 1px #DDDDDD;
+}
+.mnfp-block:last-of-type{
+	border-bottom: none;
+}
+.mnfp-legend{
+	font-size: 12px;
+	margin: 5px -15px 5px auto;
+}
+.mnfp-cb, .mnfp-label {
+	vertical-align: middle;
+	cursor: pointer;
+}
+.disabled .mnfp-label,
+.disabled .mnfp-cb {
+	color: #ccc;
+	cursor: default;
+}
