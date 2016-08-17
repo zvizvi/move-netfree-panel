@@ -10,7 +10,7 @@
 		"storage"
 	],
 	"browser_action": {
-		"default_icon": "icon.png",
+		"default_icon": "img/icon16.png",
 		"default_popup": "popup.html"
 	},
 	"content_scripts": [
@@ -19,5 +19,14 @@
 			"js": [ "js/jquery-1.11.3.min.js" , "js/main.js" ]
 		}
 	],
+	"icons": {
+		"128": "img/icon128.png",
+		"96":  "img/icon96.png",
+		"72":  "img/icon72.png",
+		"64":  "img/icon64.png",
+		"48":  "img/icon48.png",
+		"24":  "img/icon24.png",
+		"16":  "img/icon16.png"
+	},
 	"manifest_version":2
 }
