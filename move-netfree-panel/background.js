@@ -2,7 +2,7 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
 	if (changeInfo.status == 'complete') {
 		chrome.tabs.executeScript(tab.id, {
 			code: "mnfp = {\
-					version: '0.1'\
+					version: '0.2.1'\
 				};\
 				mnfp.window = document.getElementById('netfree-popup-window');\
 				mnfp.main = document.getElementById('netfree-popup-window-main');\
@@ -12,9 +12,9 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
 			\
 				mnfp.style = document.createElement('style');\
 				mnfp.style.innerHTML = '#netfree-popup-window-hand-drag{position:absolute;top:-10px;left:0;right:0;height:10px;z-index:5;background-color:#769897;cursor:move;}';\
-				mnfp.style.innerHTML += '#netfree-popup-window-main{user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;}';\
-				mnfp.style.innerHTML += '#netfree-popup-window.left #netfree-popup-window-main{left:-170px;right:auto;transition:300ms ease-in-out left;}#netfree-popup-window.left #netfree-popup-window-hand-pull{left:auto;right:-30px;transform:rotateZ(180deg);height:105px;}#netfree-popup-window.left #netfree-popup-window-main.active{left:0;}';\
-				mnfp.style.innerHTML += '#netfree-popup-window.dragging #netfree-popup-window-main{transition:0ms right,0ms left;}';\
+				mnfp.style.innerHTML += '#netfree-popup-window #netfree-popup-window-main{user-select:none;-webkit-user-select:none;-webkit-transition:300ms ease-in-out right,500ms opacity;transition:300ms ease-in-out right,500ms opacity}';\
+				mnfp.style.innerHTML += '#netfree-popup-window.left #netfree-popup-window-main{left:-170px;right:auto;-webkit-transition:300ms ease-in-out left,500ms opacity;transition:300ms ease-in-out left,500ms opacity;}#netfree-popup-window.left #netfree-popup-window-hand-pull{left:auto;right:-30px;-webkit-transform:rotateZ(180deg);transform:rotateZ(180deg);height:105px;}#netfree-popup-window.left #netfree-popup-window-main.active{left:0;}';\
+				mnfp.style.innerHTML += '#netfree-popup-window.dragging #netfree-popup-window-main{-webkit-transition:0ms right,0ms left,500ms opacity;transition:0ms right,0ms left,500ms opacity;opacity:0.8;}';\
 			\
 				mnfp.style.type = 'text/css';\
 				mnfp.main.appendChild(mnfp.style);\
@@ -64,7 +64,7 @@ chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
 					}else if(e.clientX < 170){\
 						mnfp.main.style.right = 'auto';\
 						mnfp.main.style.left = '0px';\
-						mnfp.window.className += ' left'\
+						mnfp.window.classList.add('left')\
 					}else{\
 						mnfp.main.style.right = (x-100)+'px';\
 						mnfp.main.style.left = 'auto';\
