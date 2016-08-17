@@ -1,9 +1,7 @@
+//panel position
+
 //thisStPosition = document.getElementById('this-site-position')
 allStPosition = document.getElementById('all-sites-position')
-//thisStHide = document.getElementById('this-site-hide')
-allStHide = document.getElementById('all-sites-hide')
-
-//panel position
 function allStPositionChecked(){
 	allStPosition.checked = true
 	//thisStPosition.disabled = true
@@ -33,6 +31,8 @@ allStPosition.addEventListener('change',function(){
 })
 
 //hide panel
+//thisStHide = document.getElementById('this-site-hide')
+allStHide = document.getElementById('all-sites-hide')
 function allStHideChecked(){
 	allStHide.checked = true
 	//thisStHide.disabled = true
@@ -58,3 +58,20 @@ allStHide.addEventListener('change',function(){
 		chrome.storage.sync.remove('allStHide')
 	}
 })
+
+//pull panel.
+pullHover = document.getElementById('mnfp-pull-hover')
+pullClick = document.getElementById('mnfp-pull-click')
+pullHover.addEventListener('change',setPullOption)
+pullClick.addEventListener('change',setPullOption)
+function setPullOption(){
+	if(pullHover.checked == true){
+		chrome.storage.sync.set({'pull': 'pullHover'})
+	}else if(pullClick.checked == true){
+		chrome.storage.sync.set({'pull': 'pullClick'})
+	}
+}
+chrome.storage.sync.get('pull',function(get){
+	window[get.pull].checked = true;
+})
+

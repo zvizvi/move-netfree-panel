@@ -2,6 +2,8 @@ body{
 	width: 210px;
 	font-family: 'Assistant',Arial, sans-serif ;
 	margin: 0;
+	-webkit-user-select: none;
+	user-select: none;
 }
 .mnfp-head{
 	background-color: #D9DBDA;
@@ -16,8 +18,6 @@ body{
 	font-size: 16px;
 	color: #769897;
 	background-color: #F7F7F7;
-	-webkit-user-select: none;
-	user-select: none;
 }
 .mnfp-block{
 	padding: 7px 15px;
@@ -31,23 +31,28 @@ body{
 	font-size: 12px;
 	margin: 5px -15px 5px auto;
 }
-.mnfp-cb{
+.mnfp-cb,.mnfp-radio{
 	display:none;
 }
 .mnfp-label{
 	vertical-align: middle;
 	cursor: pointer;
 }
-.mnfp-label.zmdi:before  {
+.mnfp-cb+.mnfp-label.zmdi:before  {
 	content: '\f279';
-	vertical-align: middle;
-	transtition:1s;
 }
 .mnfp-cb:checked+.mnfp-label.zmdi:before  {
 	content: '\f26a';
 }
+.mnfp-radio+.mnfp-label.zmdi:before  {
+	content: '\f26c';
+}
+.mnfp-radio:checked+.mnfp-label.zmdi:before  {
+	content: '\f26f';
+}
 .disabled .mnfp-label,
-.disabled .mnfp-cb {
+.disabled .mnfp-cb,
+.disabled .mnfp-radio{
 	color: #ccc;
 	cursor: default;
 }

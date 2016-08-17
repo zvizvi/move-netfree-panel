@@ -6,6 +6,7 @@ $(document).ready(function () {
 	mnfp.window = document.getElementById('netfree-popup-window');
 	mnfp.main = document.getElementById('netfree-popup-window-main');
 	mnfp.frame = document.getElementById('netfree-popup-window-iframe');
+	mnfp.pull = document.getElementById('netfree-popup-window-hand-pull');
 	mnfp.handDrag = document.createElement('span');
 	mnfp.handDrag.id = 'netfree-popup-window-hand-drag';
 	mnfp.main.appendChild(mnfp.handDrag);
@@ -48,6 +49,7 @@ $(document).ready(function () {
 		mnfp.drag = true;
 		mnfp.window.className += ' dragging';
 		mnfp.frame.style.pointerEvents = 'none';
+		document.body.style.webkitUserSelect = 'none';
 	});
 
 	//mousemove
@@ -81,9 +83,6 @@ $(document).ready(function () {
 			}
 		})
 	}
-	chrome.storage.onChanged.addListener(function(){
-		setPanelPosition()
-	})
 	//mouseup
 	document.addEventListener('mouseup', function(e){
 		if(mnfp.drag === false) return;
@@ -91,6 +90,7 @@ $(document).ready(function () {
 		mnfp.main.style.right = '';
 		mnfp.main.style.left = '';
 		mnfp.frame.style.pointerEvents = '';
+		document.body.style.webkitUserSelect = '';
 		if(e.target != mnfp.handDrag){
 			mnfp.main.className = '';
 		};
@@ -101,23 +101,69 @@ $(document).ready(function () {
 		};
 		setPanelPosition()
 	});
-
+	
+	//load pull option
+	function cancelHoverActive(){
+		if(flag.hoverCanceled == true) return;
+		cancelHover = document.createElement('style');
+		cancelHover.type = 'text/css'
+		cancelHoverText = document.createTextNode('\
+			body #netfree-popup-window #netfree-popup-window-main.active{right:-170px;}\
+			body #netfree-popup-window.dragging #netfree-popup-window-main.active{right:0;}\
+			body #netfree-popup-window #netfree-popup-window-main.active.clicked{right:0;}\
+			body #netfree-popup-window.left #netfree-popup-window-main.active{left:-170px;right:auto}\
+			body #netfree-popup-window.left #netfree-popup-window-main.active.clicked{left:0;right:auto}\
+			')
+		cancelHover.appendChild(cancelHoverText)
+		document.body.appendChild(cancelHover)
+		flag.hoverCanceled = true;
+	}
+	function turnOnHoverActive(){
+		if(typeof cancelHover != 'undefined'){
+			cancelHover.remove()
+			flag.hoverCanceled = false;
+		}
+	}	
+	mnfp.pull.addEventListener('click',function(){
+		mnfp.main.classList.add('clicked');
+	})
+	mnfp.main.addEventListener('mouseleave',function(){
+		mnfp.main.classList.remove('clicked');
+	})
+	
+	pullOption = function(){
+		chrome.storage.sync.get('pull',function(get){
+			if(get.pull == 'pullClick'){
+				cancelHoverActive()
+			}else{
+				turnOnHoverActive()
+			}
+			
+		})
+	}
+	chrome.storage.onChanged.addListener(function(){
+		setPanelPosition()
+		checkHide()
+		pullOption()
+	})
+	pullOption()
 });
 
+flag = {};
 //load hide settings (before the document is ready)
 function checkHide(){
 	chrome.storage.sync.get('allStHide',function(get){
 		if(get.allStHide == true){
+			if(flag.hided == true) return;
 			hide = document.createElement('style');
-			hide.type = 'text/css'
-			hide.appendChild(document.createTextNode('#netfree-popup-window{display:none;}'))
-			document.body.appendChild(hide)
+			hide.type = 'text/css';
+			hide.appendChild(document.createTextNode('#netfree-popup-window{display:none;}'));
+			document.body.appendChild(hide);
+			flag.hided = true;
 		}else if(typeof hide !== typeof undefined){
 			hide.remove()
+			flag.hided = false;
 		}
 	})
 }
 checkHide()
-chrome.storage.onChanged.addListener(function(){
-	checkHide()
-})
