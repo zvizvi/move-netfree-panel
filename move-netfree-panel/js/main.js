@@ -1,7 +1,7 @@
 //mnfp
 $(document).ready(function () {
 	mnfp = {
-		version: '0.2.5'
+		version: '0.3'
 	};
 	mnfp.window = document.getElementById('netfree-popup-window');
 	mnfp.main = document.getElementById('netfree-popup-window-main');
