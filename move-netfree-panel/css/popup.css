@@ -1,5 +1,5 @@
 body{
-	width: 280px;
+	width: 210px;
 	font-family: 'Assistant',Arial, sans-serif ;
 	margin: 0;
 }
@@ -31,9 +31,20 @@ body{
 	font-size: 12px;
 	margin: 5px -15px 5px auto;
 }
-.mnfp-cb, .mnfp-label {
+.mnfp-cb{
+	display:none;
+}
+.mnfp-label{
 	vertical-align: middle;
 	cursor: pointer;
+}
+.mnfp-label.zmdi:before  {
+	content: '\f279';
+	vertical-align: middle;
+	transtition:1s;
+}
+.mnfp-cb:checked+.mnfp-label.zmdi:before  {
+	content: '\f26a';
 }
 .disabled .mnfp-label,
 .disabled .mnfp-cb {
