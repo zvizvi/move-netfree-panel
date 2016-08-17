@@ -1,3 +1,4 @@
+//mnfp
 $(document).ready(function () {
 	mnfp = {
 		version: '0.2.5'
@@ -28,7 +29,19 @@ $(document).ready(function () {
 	}
 	mnfp.setPage()
 	window.addEventListener('resize', mnfp.setPage);
-
+	//load position settings
+	chrome.storage.sync.get('allStPosition',function(get){
+		if(get.allStPosition == true){
+			chrome.storage.sync.get('allStPositionTop',function(get){
+				mnfp.main.style.top = get.allStPositionTop
+				mnfp.setPage()
+			})
+			chrome.storage.sync.get('allStPositionRightLeft',function(get){
+				mnfp.window.className = get.allStPositionRightLeft
+			})
+		}
+	})
+	
 	//mousedown
 	mnfp.drag = false;
 	mnfp.handDrag.addEventListener('mousedown', function(){
@@ -58,7 +71,19 @@ $(document).ready(function () {
 		}
 		mnfp.main.className = 'active';
 	});
-
+	
+	// set panel position function
+	setPanelPosition = function(){
+		chrome.storage.sync.get('allStPosition',function(get){
+			if(get.allStPosition == true){
+				chrome.storage.sync.set({'allStPositionTop':mnfp.main.style.top})
+				chrome.storage.sync.set({'allStPositionRightLeft':mnfp.window.className})
+			}
+		})
+	}
+	chrome.storage.onChanged.addListener(function(){
+		setPanelPosition()
+	})
 	//mouseup
 	document.addEventListener('mouseup', function(e){
 		if(mnfp.drag === false) return;
@@ -74,6 +99,25 @@ $(document).ready(function () {
 		}else{
 			mnfp.window.className = '';
 		};
+		setPanelPosition()
 	});
 
 });
+
+//load hide settings (before the document is ready)
+function checkHide(){
+	chrome.storage.sync.get('allStHide',function(get){
+		if(get.allStHide == true){
+			hide = document.createElement('style');
+			hide.type = 'text/css'
+			hide.appendChild(document.createTextNode('#netfree-popup-window{display:none;}'))
+			document.body.appendChild(hide)
+		}else if(typeof hide !== typeof undefined){
+			hide.remove()
+		}
+	})
+}
+checkHide()
+chrome.storage.onChanged.addListener(function(){
+	checkHide()
+})

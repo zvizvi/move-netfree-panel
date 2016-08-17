@@ -1,23 +1,60 @@
-thisSposition = document.getElementById('this-site-position')
-allSposition = document.getElementById('all-sites-position')
-thisShide = document.getElementById('this-site-hide')
-allShide = document.getElementById('all-sites-hide')
+//thisStPosition = document.getElementById('this-site-position')
+allStPosition = document.getElementById('all-sites-position')
+//thisStHide = document.getElementById('this-site-hide')
+allStHide = document.getElementById('all-sites-hide')
 
-allSposition.addEventListener('change',function(){
-	if(this.checked == true){
-		thisSposition.disabled=true
-		thisSposition.parentElement.className = 'disabled'
-	}else{
-		thisSposition.disabled=false
-		thisSposition.parentElement.className = ''
+//panel position
+function allStPositionChecked(){
+	allStPosition.checked = true
+	//thisStPosition.disabled = true
+	//thisStPosition.parentElement.className = 'disabled'
+}
+function allStPositionUnChecked(){
+	allStPosition.checked = false
+	//thisStPosition.disabled = false
+	//thisStPosition.parentElement.className = ''
+}
+chrome.storage.sync.get('allStPosition',function(get){
+	if(get.allStPosition == true){
+		allStPositionChecked()
 	}
 })
-allShide.addEventListener('change',function(){
+
+allStPosition.addEventListener('change',function(){
 	if(this.checked == true){
-		thisShide.disabled=true
-		thisShide.parentElement.className = 'disabled'
+		allStPositionChecked()
+		chrome.storage.sync.set({'allStPosition': true})
 	}else{
-		thisShide.disabled=false
-		thisShide.parentElement.className = ''
+		allStPositionUnChecked()
+		chrome.storage.sync.remove('allStPosition')
+		chrome.storage.sync.remove('allStPositionTop')
+		chrome.storage.sync.remove('allStPositionRightLeft')
+	}
+})
+
+//hide panel
+function allStHideChecked(){
+	allStHide.checked = true
+	//thisStHide.disabled = true
+	//thisStHide.parentElement.className = 'disabled'
+}
+function allStHideUnChecked(){
+	allStHide.checked = false
+	//thisStHide.disabled = false
+	//thisStHide.parentElement.className = ''
+}
+chrome.storage.sync.get('allStHide',function(get){
+	if(get.allStHide == true){
+		allStHideChecked()
+	}
+})
+
+allStHide.addEventListener('change',function(){
+	if(this.checked == true){
+		allStHideChecked()
+		chrome.storage.sync.set({'allStHide': true})
+	}else{
+		allStHideUnChecked()
+		chrome.storage.sync.remove('allStHide')
 	}
 })
